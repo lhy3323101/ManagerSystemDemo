@@ -12,6 +12,7 @@
 
 <script>
     import {api} from '@/api/index.js'
+
     export default {
         name: "test.vue",
         data :function(){
@@ -25,7 +26,7 @@
                 api.test(param)
                     .then(data => {
                         console.log(data);
-                        this.testText = data.data.content;
+                        this.testText = data.content;
                         console.log(this.testText);
                     })
             }

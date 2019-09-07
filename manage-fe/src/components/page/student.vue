@@ -98,6 +98,8 @@
 </template>
 
 <script>
+    import {api} from '@/api/index.js'
+
     export default {
         name: "student",
         data(){
@@ -156,7 +158,29 @@
                 let message = this.$message;
                 this.$refs['newInfo'].validate(valid => {
                     if (valid){
-                        this.dialogFormVisible = false;
+                        let param = {
+                            name:this.newInfo.name,
+                            sex:this.newInfo.sex,
+                            mobile:this.newInfo.mobile,
+                            parentName:this.newInfo.parentName,
+                            parentMobile:this.newInfo.parentMobile,
+                            age:this.newInfo.age,
+                            remark:this.newInfo.remark,
+                        };
+                        api.saveNewStudent(param)
+                            .then(data =>{
+                                if (data.code === 1){
+                                    message.success("添加成功");
+                                }else {
+                                    message.error("添加失败，请联系管理员");
+                                }
+                            })
+                            .catch(err => {
+                                message.error("添加异常，请稍后再次");
+                            })
+                            .finally(() => {
+                                this.dialogFormVisible = false;
+                            })
                     }
                 })
             },

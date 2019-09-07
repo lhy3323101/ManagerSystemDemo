@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Message } from 'element-ui';
+import {Message} from 'element-ui';
 
 const service = axios.create({
     // process.env.NODE_ENV === 'development' 来判断是否开发环境
@@ -43,7 +43,7 @@ export default {
                 .then(res =>{
                     var res_code = res.status.toString();
                     if (res_code.charAt(0) == 2){
-                        callback(res); //callback在Promise执行器内部
+                        callback(res.data); //callback在Promise执行器内部
                     } else {
                         console.log(res,'异常1')
                     }
@@ -73,7 +73,7 @@ export default {
                 .then(res =>{
                     var res_code = res.status.toString();
                     if (res_code.charAt(0) == 2){
-                        callback(res); //callback在Promise执行器内部
+                        callback(res.data); //callback在Promise执行器内部
                     } else {
                         console.log(res,'异常1')
                     }
