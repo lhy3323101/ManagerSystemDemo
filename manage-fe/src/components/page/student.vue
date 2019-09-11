@@ -41,6 +41,11 @@
                             width="180">
                     </el-table-column>
                     <el-table-column
+                            prop="mobile"
+                            label="联系电话"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
                             prop="className"
                             label="就读班级">
                     </el-table-column>

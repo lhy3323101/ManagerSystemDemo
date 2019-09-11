@@ -43,10 +43,10 @@
         where
         1 = 1
         <if test="name != null and name != ''">
-            and name like CONCAT('%',CONCAT(#{name},'%'))
+            and name like CONCAT('%',#{name},'%')
         </if>
         <if test="mobile != null and mobile != ''">
-            and mobile like CONCAT('%',CONCAT(#{mobile},'%'))
+            and mobile like CONCAT('%',#{mobile},'%')
         </if>
     </select>
 </mapper>

@@ -11,3 +11,5 @@ spring:
 mybatis:
   mapper-locations: classpath:sql/*.xml
   type-aliases-package: com.lhy.management.student
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
