@@ -84,7 +84,7 @@
                     <el-form-item label="家长电话" :label-width="formLabelWidth" prop="parentMobile">
                         <el-input v-model="newInfo.parentMobile" autocomplete="off" style="width: 50%" maxlength="11"></el-input>
                     </el-form-item>
-                    <el-form-item label="备注" :label-width="formLabelWidth">
+                    <el-form-item label="备注" :label-width="formLabelWidth" prop="remark">
                         <el-input v-model="newInfo.remark" type="textarea" :rows="3" autocomplete="off" style="width: 50%" maxlength="11"></el-input>
                     </el-form-item>
                 </el-form>
@@ -147,9 +147,9 @@
             },
             /*新建学员准备工作*/
             add(){
-                if (this.$refs["newInfo"]!==undefined) {
+                /*if (this.$refs["newInfo"]!==undefined) {
                     this.$refs["newInfo"].resetFields();
-                }
+                }*/
                 this.dialogFormVisible = true;
 
                 },
@@ -167,6 +167,7 @@
                             age:this.newInfo.age,
                             remark:this.newInfo.remark,
                         };
+                        console.log(param);
                         api.saveNewStudent(param)
                             .then(data =>{
                                 if (data.code === 1){

@@ -7,5 +7,5 @@ export const api = {
     //Test
     test: params => {return request.post('/test',params)},
     /** 新增学员 */
-    saveNewStudent: param =>{return request.post('/saveNewStudent',param)}
+    saveNewStudent: param =>{return request.post('/student/saveNewStudent',param)}
 }

@@ -1,15 +1,16 @@
-package com.lhy.management.student.service;
+package com.lhy.management.student.mapper;
 
 import com.lhy.management.student.model.StudentInfoModel;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
- * Description:学生页面模块的service
+ * Description:
  *
  * @author Angel
- * @since 2019/9/7 16:14
+ * @since 2019/9/7 16:16
  */
-public interface StudentService {
-
+@Mapper
+public interface StudentMapper {
 
     /**
      * 新建学生信息
