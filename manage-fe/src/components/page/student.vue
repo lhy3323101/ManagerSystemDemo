@@ -27,7 +27,8 @@
             <el-row>
                 <el-table
                     :data="tableData"
-                    height="250"
+                    v-loading="loading"
+                    height="450"
                     style="width: 100%;margin-top: 10px">
                     <el-table-column
                             prop="name"
@@ -94,6 +95,17 @@
                 </span>
             </el-dialog>
         </div>
+        <div class="block" style="text-align: center;margin-top: 30px">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :page-sizes="[10, 50, 100]"
+                    :page-size="pageSize"
+                    :current-page="currentPage"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -134,26 +146,57 @@
                     age:null,
                     remark:'',
                 },
+                pageSize:10,
+                currentPage:1,
+                total:0,
                 labelPosition:'right',
+                loading:false,
                 tableData:[],
                 dialogFormVisible:false,
                 formLabelWidth:'80px',
             }
         },
         methods:{
-            /*搜索符合条件的学员信息*/
+            /** 搜索前准备工作*/
             search(){
-
+                this.currentPage = 1;
+                this.onSearch();
             },
-            /*新建学员准备工作*/
+            /** 搜索符合条件的学员信息*/
+            onSearch(){
+                this.loading =true;
+                let message = this.$message;
+                let param ={
+                    name:this.searchInfo.name,
+                    mobile:this.searchInfo.mobile,
+                    pageStart:this.currentPage,
+                    pageSize:this.pageSize
+                };
+                api.getStudentList(param)
+                    .then(data => {
+                        if (data.code === 1){
+                            this.tableData = data.content.list;
+                            this.total = data.content.total;
+                        }else {
+                            message.error("获取数据失败，请联系管理员")
+                        }
+                    })
+                    .catch(() =>{
+                        message.error("获取数据异常，请联系管理员")
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    })
+            },
+            /** 新建学员准备工作*/
             add(){
-                /*if (this.$refs["newInfo"]!==undefined) {
+                if (this.$refs["newInfo"]!==undefined) {
                     this.$refs["newInfo"].resetFields();
-                }*/
+                }
                 this.dialogFormVisible = true;
 
                 },
-            /*保存学员信息*/
+            /** 保存学员信息*/
             save(){
                 let message = this.$message;
                 this.$refs['newInfo'].validate(valid => {
@@ -185,6 +228,20 @@
                     }
                 })
             },
+            handleSizeChange(val) {
+                this.pageSize = val;
+                this.onSearch();
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.onSearch();
+            },
+            init(){
+                this.onSearch();
+            }
+        },
+        mounted() {
+            this.init();
         }
     }
 

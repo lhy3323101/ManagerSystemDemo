@@ -13,6 +13,7 @@
         remark as remark,
         age as age
     </sql>
+
     <!--添加新的学员信息-->
     <insert id="saveNewStudent" parameterType="com.lhy.management.student.model.StudentInfoModel">
             insert into t_mng_student
@@ -33,4 +34,19 @@
             ]]>
         </selectKey>
     </insert>
+
+    <select id="getStudentList" resultType="com.lhy.management.student.model.StudentInfoModel" parameterType="com.lhy.management.student.model.StudentInfoModel">
+        select
+        <include refid="studentInfo"/>
+        from
+        t_mng_student
+        where
+        1 = 1
+        <if test="name != null and name != ''">
+            and name like CONCAT('%',CONCAT(#{name},'%'))
+        </if>
+        <if test="mobile != null and mobile != ''">
+            and mobile like CONCAT('%',CONCAT(#{mobile},'%'))
+        </if>
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.lhy.management.student.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lhy.management.student.model.StudentInfoModel;
 
 /**
@@ -17,4 +18,11 @@ public interface StudentService {
      * @return 数据库主键id
      */
     Long saveNewStudent(StudentInfoModel param);
+
+    /**
+     * 获取符合条件的学生列表
+     * @param param 筛选条件
+     * @return 符合条件的列表
+     */
+    PageInfo<StudentInfoModel> getStudentList(StudentInfoModel param);
 }

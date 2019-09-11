@@ -1,11 +1,11 @@
 import request from '../utils/request';
 
-let baseUrl = 'api';
+let studentBaseUrl = '/student';
 
 
 export const api = {
-    //Test
-    test: params => {return request.post('/test',params)},
     /** 新增学员 */
-    saveNewStudent: param =>{return request.post('/student/saveNewStudent',param)}
+    saveNewStudent: param =>{return request.post(`${studentBaseUrl}/saveNewStudent`,param)},
+    /** 获取学生列表*/
+    getStudentList: param =>{return request.post(`${studentBaseUrl}/getStudentList`,param)}
 }

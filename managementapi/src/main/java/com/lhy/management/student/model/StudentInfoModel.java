@@ -1,5 +1,6 @@
 package com.lhy.management.student.model;
 
+import com.lhy.management.common.model.PageModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.io.Serializable;
  */
 
 @Data
-public class StudentInfoModel implements Serializable {
+public class StudentInfoModel extends PageModel implements Serializable {
 
 
     private static final long serialVersionUID = -3299680766364267888L;

@@ -1,5 +1,6 @@
 package com.lhy.management.student.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.lhy.management.common.result.Result;
 import com.lhy.management.student.model.StudentInfoModel;
 import com.lhy.management.student.service.StudentService;
@@ -35,5 +36,18 @@ public class StudentController {
             return Result.err("添加异常");
         }
         return Result.suc("添加成功");
+    }
+
+    @ResponseBody
+    @RequestMapping("/getStudentList")
+    public Result getStudentList(@RequestBody StudentInfoModel param){
+        try {
+            PageInfo<StudentInfoModel> studentList = studentService.getStudentList(param);
+            return Result.suc("获取数据成功",studentList);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return Result.err("获取学生信息异常");
+        }
     }
 }
