@@ -49,4 +49,24 @@
             and mobile like CONCAT('%',#{mobile},'%')
         </if>
     </select>
+
+    <update id="updateStudent" parameterType="com.lhy.management.student.model.StudentInfoModel">
+        update t_mng_student
+        set
+        name = #{name}
+        <if test="mobile != null and mobile != '' ">
+            ,mobile = #{mobile}
+        </if>
+        <if test="parentName != null and parentName != '' ">
+            ,parent_name = #{parentName}
+        </if>
+        <if test="parentMobile != null and parentMobile != '' ">
+            ,parent_mobile = #{parentMobile}
+        </if>
+        <if test="remark != null">
+            ,remark = #{remark}
+        </if>
+        where
+        id = #{id}
+    </update>
 </mapper>

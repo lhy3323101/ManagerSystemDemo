@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Description:
+ * Description: 学生页Controller
  *
  * @author Angel
  * @since 2019/9/7 16:04
@@ -48,6 +48,19 @@ public class StudentController {
             log.error(e.getMessage());
             e.printStackTrace();
             return Result.err("获取学生信息异常");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("updateStudent")
+    public Result updateStudent(@RequestBody StudentInfoModel param){
+        try {
+            studentService.updateStudent(param);
+            return Result.suc();
+        }catch (Exception e){
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return Result.err("修改学生信息异常");
         }
     }
 }

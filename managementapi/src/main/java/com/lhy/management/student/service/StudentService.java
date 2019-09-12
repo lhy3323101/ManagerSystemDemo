@@ -25,4 +25,10 @@ public interface StudentService {
      * @return 符合条件的列表
      */
     PageInfo<StudentInfoModel> getStudentList(StudentInfoModel param);
+
+    /**
+     * 修改学员信息
+     * @param param 更新的信息
+     */
+    void updateStudent(StudentInfoModel param);
 }

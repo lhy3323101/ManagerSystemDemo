@@ -27,4 +27,10 @@ public interface StudentMapper {
      * @return 符合条件的列表
      */
     List<StudentInfoModel> getStudentList(StudentInfoModel param);
+
+    /**
+     * 修改学员信息
+     * @param param 更新的信息
+     */
+    void updateStudent(StudentInfoModel param);
 }

@@ -47,4 +47,13 @@ public class StudentServiceImpl implements StudentService {
         // 2.返回分页数据
         return new PageInfo<>(list);
     }
+
+    /**
+     * 修改学员信息
+     * @param param 更新的信息
+     */
+    @Override
+    public void updateStudent(StudentInfoModel param) {
+        studentMapper.updateStudent(param);
+    }
 }
