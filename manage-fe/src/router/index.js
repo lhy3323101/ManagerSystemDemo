@@ -30,6 +30,11 @@ export default new Router({
                     meta: { title: '学生信息管理' }
                 },
                 {
+                    path: '/course',
+                    component: resolve => require(['../components/page/course.vue'], resolve),
+                    meta: { title: '课程信息管理' }
+                },
+                {
                     path: '/test',
                     component: resolve => require(['../components/page/test.vue'], resolve),
                     meta: { title: '测试页' }

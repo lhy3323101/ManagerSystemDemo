@@ -60,6 +60,9 @@
         <if test="parentName != null and parentName != '' ">
             ,parent_name = #{parentName}
         </if>
+        <if test="age != null">
+            ,age = #{age}
+        </if>
         <if test="parentMobile != null and parentMobile != '' ">
             ,parent_mobile = #{parentMobile}
         </if>

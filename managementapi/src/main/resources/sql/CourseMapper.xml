@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.lhy.management.course.mapper.CourseMapper" >
+
+    <insert id="saveNewCourse" parameterType="com.lhy.management.course.model.CourseInfoModel">
+        insert into t_mng_course
+        (
+        name,
+        price,
+        stu_time,
+        status,
+        <if test="remark != null">
+            remark
+        </if>
+        )
+        value
+        (
+        #{name},
+        #{price},
+        #{stuTime},
+        #{status},
+        <if test="remark != null">
+            ,#{remark}
+        </if>
+        )
+        <selectKey keyProperty="id" resultType="Long">
+            <![CDATA[
+              SELECT LAST_INSERT_ID();
+            ]]>
+        </selectKey>
+    </insert>
+
+    <select id="getCourseList" resultType="com.lhy.management.course.model.CourseInfoModel" parameterType="com.lhy.management.course.model.CourseInfoModel">
+        select
+        id as id,
+        name as name,
+        price as price,
+        stu_time as stuTime,
+        status as status,
+        remark as remark
+        from
+        t_mng_course
+        where
+        1=1
+        <if test="name != null and name != ''">
+            and name like CONCAT('%',#{name},'%')
+        </if>
+    </select>
+
+    <update id="updateCourse" parameterType="com.lhy.management.course.model.CourseInfoModel">
+        update t_mng_course
+        set
+        name = #{name},
+        status = #{status},
+        price = #{price},
+        stu_time = #{stuTime},
+        remark = #{remark}
+        where
+        id = #{id}
+    </update>
+</mapper>
