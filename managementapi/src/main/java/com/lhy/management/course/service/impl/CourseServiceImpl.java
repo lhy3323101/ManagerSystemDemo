@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static com.lhy.management.common.CommonConstant.BAN;
+import static com.lhy.management.common.CommonConstant.START;
+
 /**
  * Description:
  *
@@ -22,16 +25,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Resource
     private CourseMapper courseMapper;
-
-    /**
-     * 禁用
-     */
-    private static final Integer BAN = 0;
-
-    /**
-     * 启用
-     */
-    private static final Integer START = 1;
 
     /**
      * 获取符合条件的学生列表

@@ -1,13 +1,32 @@
 <template>
     <div class="container">
         <div style="text-align: center">
-            <h1>课程信息管理</h1>
+            <h1>时间信息管理</h1>
         </div>
         <div style="margin-top: 20px">
             <el-row>
                 <el-form :inline="true" :label-position="labelPosition" label-width="80px">
-                    <el-form-item label="课程名">
-                        <el-input v-model="searchInfo.name"></el-input>
+                    <el-form-item label="开始时间">
+                        <el-time-select
+                                v-model="searchInfo.startTimeStr"
+                                :picker-options="{
+                                start: '08:30',
+                                end: '21:30',
+                                step: '00:15',
+                                }"
+                                placeholder="请选择开始时间">
+                        </el-time-select>
+                    </el-form-item>
+                    <el-form-item label="结束时间">
+                        <el-time-select
+                                v-model="searchInfo.endTimeStr"
+                                :picker-options="{
+                                start: '09:30',
+                                end: '22:30',
+                                step: '00:15',
+                                }"
+                                placeholder="请选择开始时间">
+                        </el-time-select>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="search">
@@ -18,7 +37,7 @@
             </el-row>
             <el-row>
                 <el-button type="primary" @click="add">
-                    新增课程
+                    新增时间
                 </el-button>
             </el-row>
             <el-row>
@@ -34,19 +53,9 @@
                             width="50">
                     </el-table-column>
                     <el-table-column
-                        prop="name"
-                        label="课程名"
+                        prop="timeStr"
+                        label="时间"
                         width="180">
-                    </el-table-column>
-                    <el-table-column
-                            prop="stuTime"
-                            label="课时(小时)"
-                            width="180">
-                    </el-table-column>
-                    <el-table-column
-                            prop="price"
-                            label="价格(元)"
-                            width="180">
                     </el-table-column>
                     <el-table-column
                             prop="statusStr"
@@ -67,16 +76,39 @@
             </el-row>
         </div>
         <div>
-            <el-dialog title="新增/修改课程" center :visible.sync="dialogFormVisible" style="width:60%;margin-left: 23%">
+            <el-dialog title="新增/修改时间" center :visible.sync="dialogFormVisible" style="width:60%;margin-left: 23%">
                 <el-form :model="newInfo" label-position="right" :rules="rules" ref="newInfo">
-                    <el-form-item label="课程名：" :label-width="formLabelWidth" prop="name">
-                        <el-input v-model="newInfo.name" clearable :disabled="this.ban" autocomplete="off" style="width: 50%" maxlength="125"></el-input>
+                    <el-form-item label="星期几：" :label-width="formLabelWidth" prop="weekName">
+                        <el-select v-model="this.newInfo.weekName" placeholder="请选择">
+                            <el-option
+                                    v-for="item in weekList"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
-                    <el-form-item label="价格：" :label-width="formLabelWidth" prop="price">
-                        <el-input-number v-model="newInfo.price" :precision="2" :step="0.01" :min="0.00" :max="100000"></el-input-number>
+                    <el-form-item label="课程开始时间：" :label-width="formLabelWidth" prop="startTime">
+                        <el-time-select
+                                v-model="newInfo.startTimeStr"
+                                :picker-options="{
+                                start: '08:30',
+                                end: '21:30',
+                                step: '00:15',
+                                }"
+                                placeholder="请选择开始时间">
+                        </el-time-select>
                     </el-form-item>
-                    <el-form-item label="课时：" :label-width="formLabelWidth" prop="stuTime">
-                        <el-input-number v-model="newInfo.stuTime" :precision="1" :step="0.5" :min="1" :max="1000"></el-input-number>
+                    <el-form-item label="课程结束时间：" :label-width="formLabelWidth" prop="endTime">
+                        <el-time-select
+                                v-model="newInfo.endTimeStr"
+                                :picker-options="{
+                                start: '09:30',
+                                end: '22:30',
+                                step: '00:15',
+                                }"
+                                placeholder="请选择结束时间">
+                        </el-time-select>
                     </el-form-item>
                     <el-form-item label="状态：" :label-width="formLabelWidth">
                         <el-radio v-model="newInfo.status" label="1" >启用</el-radio>
@@ -88,7 +120,7 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="isModify ? update() : save()" style="margin-left: 10%">确 定</el-button>
+                    <el-button type="primary" @click="isModify ? update() : save()" style="margin-left: 10%" :loading="confirmLoading">确 定</el-button>
                 </span>
             </el-dialog>
         </div>
@@ -114,31 +146,40 @@
         data(){
             return{
                 rules:{
-                    name: [
-                        {required: true, trigger: 'blur', message: "请输入课程名"}
+                    weekName: [
+                        {required:true, trigger:'change', message: '请选择星期几'}
+                    ],
+                    startTimeStr: [
+                        {required: true, trigger: 'change', message: '请选择开始时间'}
+                    ],
+                    endTimeStr: [
+                        {required: true, trigger: 'change', message: '请选择结束时间'}
                     ],
                 },
                 searchInfo:{
-                    name:'',
+                    startTimeStr:null,
+                    endTimeStr:null
                 },
                 newInfo:{
-                    name:'',
                     status:'1',
+                    startTimeStr:null,
+                    endTimeStr:null,
                     remark:'',
-                    price:1.00,
-                    stuTime:0,
                     id:'',
+                    weekName:0,
                 },
+                weekList:[],
                 pageSize:10,
                 currentPage:1,
                 total:0,
                 labelPosition:'right',
                 loading:false,
                 tableData:[],
-                formLabelWidth:'80px',
+                formLabelWidth:'120px',
                 dialogFormVisible:false,
                 isModify:false,
                 ban:false,
+                confirmLoading:false,
             }
         },
         methods:{
@@ -147,16 +188,17 @@
                 this.currentPage = 1;
                 this.onSearch();
             },
-            /** 搜索符合条件的课程信息*/
+            /** 搜索符合条件的时间信息*/
             onSearch(){
                 this.loading =true;
                 let message = this.$message;
                 let param ={
-                    name:this.searchInfo.name,
+                    startTimeStr:this.searchInfo.startTimeStr,
+                    endTimeStr:this.searchInfo.endTimeStr,
                     pageStart:this.currentPage,
                     pageSize:this.pageSize
                 };
-                api.getCourseList(param)
+                api.getTimeList(param)
                     .then(data => {
                         if (data.code === 1){
                             this.tableData = data.content.list;
@@ -172,21 +214,20 @@
                         this.loading = false;
                     })
             },
-            /** 修改课程信息准备 */
+            /** 修改时间信息准备 */
             modify(row){
                 if (row){
                     this.newInfo.status = `${row.status}`;
-                    this.newInfo.name = row.name;
                     this.newInfo.id = row.id;
-                    this.newInfo.stuTime = row.stuTime;
                     this.newInfo.remark = row.remark;
-                    this.newInfo.price = row.price;
+                    this.newInfo.endTime = row.endTime;
+                    this.newInfo.startTime = row.startTime;
                 }
                 this.isModify = true;
                 this.ban = true;
                 this.dialogFormVisible = true;
             },
-            /** 修改课程信息*/
+            /** 修改时间信息*/
             update(){
                 let message = this.$message;
                 this.$refs['newInfo'].validate(valid => {
@@ -209,7 +250,7 @@
                     }
                 })
             },
-            /** 新建课程准备工作*/
+            /** 新建时间准备工作*/
             add(){
                 if (this.$refs["newInfo"]!==undefined) {
                     this.$refs["newInfo"].resetFields();
@@ -226,18 +267,19 @@
                 this.dialogFormVisible = true;
                 },
 
-            /** 保存课程信息*/
+            /** 保存时间信息*/
             save(){
                 let message = this.$message;
+                this.confirmLoading = true;
                 this.$refs['newInfo'].validate(valid => {
                     if (valid){
                         let param = {
-                            name:this.newInfo.name,
-                            price:this.newInfo.price,
-                            stuTime:this.newInfo.stuTime,
                             remark:this.newInfo.remark,
+                            startTime:this.newInfo.startTime,
+                            endTime:this.newInfo.endTime,
+                            status:this.newInfo.status
                         };
-                        api.saveNewCourse(param)
+                        api.saveNewTime(param)
                             .then(data =>{
                                 if (data.code === 1){
                                     message.success("添加成功");
@@ -251,9 +293,23 @@
                             })
                             .finally(() => {
                                 this.dialogFormVisible = false;
+                                this.confirmLoading = false;
                             })
                     }
                 })
+            },
+
+            //获取星期列表
+            getWeekList(){
+                let message = this.$message;
+                api.getWeekList()
+                  .then(data => {
+                      if (data.code === 1){
+                          this.weekList = data.content;
+                      }else {
+                          message.error("获取星期列表失败，请联系管理员")
+                      }
+                  })
             },
             handleSizeChange(val) {
                 this.pageSize = val;
@@ -265,6 +321,7 @@
             },
             init(){
                 this.onSearch();
+                this.getWeekList();
             }
         },
         mounted() {

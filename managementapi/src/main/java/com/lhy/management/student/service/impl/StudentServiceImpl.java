@@ -2,9 +2,12 @@ package com.lhy.management.student.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lhy.management.common.utils.redis.RedisService;
 import com.lhy.management.student.mapper.StudentMapper;
 import com.lhy.management.student.model.StudentInfoModel;
 import com.lhy.management.student.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +21,15 @@ import java.util.List;
  * @since 2019/9/7 16:15
  */
 @Service
+@Slf4j
 public class StudentServiceImpl implements StudentService {
 
     @Resource
     private StudentMapper studentMapper;
+
+    @Autowired
+    private RedisService redisService;
+
 
     /**
      * 新建学生信息
@@ -46,6 +54,7 @@ public class StudentServiceImpl implements StudentService {
         List<StudentInfoModel> list = studentMapper.getStudentList(param);
         // 2.返回分页数据
         return new PageInfo<>(list);
+
     }
 
     /**

@@ -35,6 +35,11 @@ export default new Router({
                     meta: { title: '课程信息管理' }
                 },
                 {
+                    path: '/time',
+                    component: resolve => require(['../components/page/time.vue'], resolve),
+                    meta: { title: '时间信息管理' }
+                },
+                {
                     path: '/test',
                     component: resolve => require(['../components/page/test.vue'], resolve),
                     meta: { title: '测试页' }

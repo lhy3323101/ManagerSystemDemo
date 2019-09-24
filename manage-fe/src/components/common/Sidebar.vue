@@ -55,6 +55,11 @@
                         title:"课程信息管理"
                     },
                     {
+                        icon: 'el-icon-tickets',
+                        index:"/time",
+                        title:"时间信息管理"
+                    },
+                    {
                         icon: 'el-icon-lx-home',
                         index:"/test",
                         title:"测试页"

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * Description:
+ * Description: 学生信息Model
  *
  * @author Angel
  * @since 2019/9/7 16:11
@@ -16,8 +16,7 @@ import java.io.Serializable;
 public class StudentInfoModel extends PageModel implements Serializable {
 
 
-    private static final long serialVersionUID = -3299680766364267888L;
-
+    private static final long serialVersionUID = -368892806990975112L;
     /**
      * 主键id
      */

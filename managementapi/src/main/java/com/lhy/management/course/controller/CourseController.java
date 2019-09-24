@@ -3,6 +3,7 @@ package com.lhy.management.course.controller;
 import com.github.pagehelper.PageInfo;
 import com.lhy.management.common.result.Result;
 import com.lhy.management.course.model.CourseInfoModel;
+import com.lhy.management.course.model.TestTimeModel;
 import com.lhy.management.course.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Description: 课程页Controller
@@ -19,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-@RequestMapping("/student")
+@RequestMapping("/course")
 public class CourseController {
 
     @Autowired
@@ -40,10 +44,10 @@ public class CourseController {
 
    @ResponseBody
     @RequestMapping("/getCourseList")
-    public Result getStudentList(@RequestBody CourseInfoModel param){
+    public Result getCourseList(@RequestBody CourseInfoModel param){
         try {
-            PageInfo<CourseInfoModel> studentList = courseService.getCourseList(param);
-            return Result.suc("获取数据成功",studentList);
+            PageInfo<CourseInfoModel> courseList = courseService.getCourseList(param);
+            return Result.suc("获取数据成功",courseList);
         }catch (Exception e){
             log.error(e.getMessage());
             e.printStackTrace();
@@ -66,5 +70,23 @@ public class CourseController {
             e.printStackTrace();
             return Result.err("修改学生信息异常");
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/testTime")
+    public Result testTime(@RequestBody TestTimeModel param){
+        try {
+            if (param != null && param.getTestTime() != null){
+                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                String time = sdf.format(param.getTestTime());
+                System.out.println(time);
+            }
+            return Result.suc();
+        }catch (Exception e){
+            log.error(e.getMessage());
+            e.printStackTrace();
+            return Result.err("接收DatePicker类异常");
+        }
+
     }
 }
