@@ -4,6 +4,7 @@ import com.lhy.management.common.model.PageModel;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Description: 学生信息Model
@@ -51,6 +52,11 @@ public class StudentInfoModel extends PageModel implements Serializable {
      * 家长联系方式
      */
     private String parentMobile;
+
+    /**
+     * 新建时间
+     */
+    private Date createTime;
 
     /**
      * 备注

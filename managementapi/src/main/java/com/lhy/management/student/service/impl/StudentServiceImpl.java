@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public Long saveNewStudent(StudentInfoModel param) {
+        param.setCreateTime(new Date());
         return studentMapper.saveNewStudent(param);
     }
 

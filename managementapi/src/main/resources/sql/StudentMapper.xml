@@ -17,7 +17,7 @@
     <!--添加新的学员信息-->
     <insert id="saveNewStudent" parameterType="com.lhy.management.student.model.StudentInfoModel">
             insert into t_mng_student
-            (name,sex,mobile,parent_mobile,parent_name,remark,age)
+            (name,sex,mobile,parent_mobile,parent_name,remark,age,create_time)
             values
             (
                 #{name},
@@ -26,7 +26,8 @@
                 #{parentMobile},
                 #{parentName},
                 #{remark},
-                #{age}
+                #{age},
+                #{createTime}
             )
         <selectKey keyProperty="id" resultType="Long">
             <![CDATA[
@@ -48,6 +49,7 @@
         <if test="mobile != null and mobile != ''">
             and mobile like CONCAT('%',#{mobile},'%')
         </if>
+        order by create_time desc
     </select>
 
     <update id="updateStudent" parameterType="com.lhy.management.student.model.StudentInfoModel">
